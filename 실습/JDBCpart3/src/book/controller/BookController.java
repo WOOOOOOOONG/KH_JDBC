@@ -1,0 +1,83 @@
+package book.controller;
+
+import java.util.ArrayList;
+
+import book.model.service.BookService;
+import book.model.vo.Book;
+import book.view.BookMenu;
+// Controller : 1. 요청 받은 데이터를 검증하고 서비스 클래스의 메소드에
+//                 인자로 정보를 전달한다.
+//              2. 수행 결과를 해당하는 뷰 페이지에 연결하는 역할을 수행한다.
+public class BookController {
+	private BookMenu bm = new BookMenu();
+	// 도서 신규 등록용 메소드
+	public void insertBook(Book b) {
+		BookService bs = new BookService();
+		int result = bs.insertBook(b);
+		
+		if(result > 0) {
+			System.out.println("도서 정보 입력 완료");
+		} else {
+			bm.displayError("insert");
+		}
+	}
+	
+	// 모든 도서 조회용 메소드
+	public void selectAll() {
+		BookService bs = new BookService();
+		ArrayList<Book> list = bs.seletAll();
+		
+		if(list.isEmpty()) {
+			System.out.println("검색 결과가 없습니다.");
+		}else {
+			bm.displayBookList(list);
+		}
+	
+	}
+	
+	// 도서 정보 수정용 메소드
+	public void updateBook(int bid, Book b) {
+		BookService bs = new BookService();
+		b.setBid(bid);
+		int result = bs.updateBook(b);
+		
+		if(result > 0) {
+			System.out.println("도서 정보 수정 완료");
+		}else {
+			bm.displayError("update");
+		}
+	}
+
+	public void deleteBook(int inputBookId) {
+		BookService bs = new BookService();
+		int result = bs.deleteBook(inputBookId);
+		
+		if(result > 0) {
+			System.out.println("도서 삭제 완료");
+		}else {
+			bm.displayError("delete");
+		}
+	}
+
+	public void searchBook(int inputBookId) {
+		BookService bs = new BookService();
+		int result = bs.searchBook(inputBookId);
+		
+		if(result > 0) {
+			System.out.println("도서 조회 완료");
+		}else {
+			bm.displayError("search");
+		}
+	}
+
+	public void searchBookTitle(String inputTitle) {
+		BookService bs = new BookService();
+		ArrayList<Book> list = bs.searchBookTitle(inputTitle);
+		
+		if(list.isEmpty()) {
+			System.out.println("검색 결과가 없습니다.");
+		}else {
+			bm.displayBookList(list);
+		}
+	}
+}

@@ -1,0 +1,3 @@
+insertMember=insert into member values(?, ?, ?, ?, ?, ?, ?, ?, ?)
+selectAll=select * from member;
+searchMember=SELECT * FROM MEMBER WHERE MEMBER_ID = ?

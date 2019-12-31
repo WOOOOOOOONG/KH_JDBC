@@ -1,0 +1,12 @@
+package member.view;
+
+public class MemberView {
+	// 에러 처리용 뷰
+	public void error() {
+		
+	}
+	
+	// 전체 회원 출력용 뷰
+	
+	// 한명 회원 출력용 뷰
+}

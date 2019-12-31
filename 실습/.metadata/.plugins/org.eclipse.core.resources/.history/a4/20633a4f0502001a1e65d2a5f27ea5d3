@@ -1,0 +1,5 @@
+selectAll=select * from product
+insertRow=insert into product(product_id, p_name, price, description) values(?, ?, ?, ?)
+updateRow=update product set price = ? where product_id = ?
+deleteRow=delete from product where product_id = ?
+selectRow=select * from product where product_id = ?

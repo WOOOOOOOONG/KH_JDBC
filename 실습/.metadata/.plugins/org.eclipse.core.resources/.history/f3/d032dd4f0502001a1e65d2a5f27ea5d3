@@ -1,0 +1,50 @@
+package product.model.service;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import product.model.dao.ProductDao;
+import product.model.vo.Product;
+
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.close;
+
+public class ProductService {
+
+	public ArrayList<Product> selectAll() {
+		ArrayList<Product> pList = new ArrayList<Product>();
+		Connection c = getConnection();
+		ProductDao pdao = new ProductDao();
+		pList = pdao.selectAll(c);
+		
+		close(c);
+		
+		return pList;
+	}
+
+	public int insertRow(Product pro) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int updateRow(String pId, int price) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int deleteRow(String pId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Product selectRow(String pId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Product> selectName(String pName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

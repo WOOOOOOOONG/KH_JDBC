@@ -1,0 +1,28 @@
+package model.vo;
+
+import java.sql.Date;
+
+// vo (value object) == dto(data transfer object)
+// == record == row
+// -> DB테이블의 한 행의 정보가 기록되는 저장용 객체
+public class Employee {
+	private int empNo;
+	private String empName;
+	private String job;
+	private int mgr;
+	private Date hireDate;
+	private int sal;
+	private int comm;
+	private int deptNo;
+	
+	public Employee();
+	/*EMPNO	NUMBER
+	ENAME	VARCHAR2(10 BYTE)
+	JOB	VARCHAR2(9 BYTE)
+	MGR	NUMBER
+	HIREDATE	DATE
+	SAL	NUMBER
+	COMM	NUMBER
+	DEPTNO	NUMBER*/
+	
+}

@@ -1,0 +1,5 @@
+insertMember=insert into member values(?, ?, ?, ?, ?, ?, ?, ?, ?)
+selectAll=select * from member
+searchMember=SELECT * FROM MEMBER WHERE MEMBER_ID = ?
+selectGender=select * from member where gender = ?
+updatePassword=update member set password = ? where member_id = ?

@@ -1,0 +1,28 @@
+package controller;
+
+import java.sql.Date;
+
+import model.dao.EmployeeModel;
+import model.dto.Employee;
+
+public class TestJDBC {
+	public static void main(String[] args) {
+		EmployeeModel model = new EmployeeModel();
+		
+		// 1. 모든 직원 조회
+//		model.selectAll();
+		
+		// 2. 키보드로 사번 입력받아 조회
+//		model.selectOne(210);
+		
+		// 3. 키보드로 새 직원 정보 입력받아 삽입
+		Employee emp = new Employee("211", "임세웅", "660228-1001122", "sewoong@naver.com", "01041625512", "J1", 32000000, 0, "Y", null, "20");
+		model.insertEmployee(emp);
+//		
+//		// 4. 직급코드, 급여, 보너스 포인트, 부서코드 입력받아 수정(검색 기준은 사번)
+//		model.updateEmployee(직원객체);
+//		
+//		// 5. 키보드로 사번 입력받아 삭제
+//		model.deleteEmployee(사번);
+	}
+}

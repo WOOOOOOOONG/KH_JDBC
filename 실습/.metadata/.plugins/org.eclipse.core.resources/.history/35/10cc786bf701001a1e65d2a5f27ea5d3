@@ -1,0 +1,87 @@
+package member.model.service;
+
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.getConnection;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import common.JDBCTemplate;
+import member.model.dao.MemberDao;
+import member.model.vo.Member;
+
+public class MemberService {
+	public int memberInsert(Member m) {
+		Connection c = getConnection();
+		MemberDao md = new MemberDao();
+		int result = md.insertMember(c, m);
+		
+		if(result > 0) {
+			try {
+				c.commit();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			try {
+				c.rollback();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Member> seletAll() {
+		Connection con = getConnection();
+		MemberDao bd = new MemberDao();
+		ArrayList<Member> result = bd.selectAll(con);
+		
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Member> SelectId(String memberId) {
+		Connection con = getConnection();
+		MemberDao bd = new MemberDao();
+		ArrayList<Member> mem = bd.searchMember(con, memberId);
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mem;
+	}
+
+	// 
+	public HashMap<String, Member> selectGender(String inputGender) {
+		Connection con = getConnection();
+		MemberDao mdao = new MemberDao();
+		
+		HashMap<String, Member> hmap = mdao.selectGender(con, inputGender);
+		
+		close(con);
+		
+		return hmap;
+	}
+}

@@ -1,0 +1,47 @@
+package member.controller;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import common.JDBCTemplate;
+import member.model.service.MemberService;
+import member.model.vo.Member;
+import member.view.MemberMenu;
+import member.view.MemberView;
+
+public class MemberController {
+	MemberView mv = new MemberView();
+	
+	public void insertMember(Member inputMember) {
+		MemberService ms = new MemberService();
+		int result = ms.memberInsert(inputMember);
+		
+		if(result > 0) {
+			System.out.println("도서 정보 입력 완료");
+		}else {
+			mv.error("insert");
+		}
+	}
+	
+	public void selectAll() {
+		MemberService ms = new MemberService();
+		ArrayList<Member> result = ms.seletAll();
+		
+		if(result.isEmpty()) {
+			mv.error("selectAll");
+		}else {
+			mv.displayAll(result);
+		}
+	}
+	
+	public void SelectMember(String mID) {
+		MemberService ms = new MemberService();
+		ArrayList<Member> result = ms.SelectId(mID);
+		
+		if(result.isEmpty()) {
+			mv.error("selectID");
+		}else {
+			mv.displayAll(result);
+		}
+	}
+}

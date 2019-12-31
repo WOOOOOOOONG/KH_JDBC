@@ -1,0 +1,47 @@
+package product.model.dao;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import product.model.vo.Product;
+
+public class ProductDao {
+
+	public ArrayList<Product> selectAll(Connection c) {
+		ArrayList<Product> pList = new ArrayList<Product>();
+		Properties prop = new Properties();
+		ResultSet rset = null;
+		
+		try {
+			String query = prop.getProperty("selectAll");
+			prop.load(new FileReader("query"));
+			
+			PreparedStatement pstat = c.prepareStatement(query);
+			rset = pstat.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				
+				p.setpId(rset.getString(1));
+				p.setpName(rset.getString(2));
+				p.setPrice(rset.getInt(3));
+				p.setDesc(rset.getString(4));
+				
+				pList.add(p);
+			}
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return pList;
+	}
+
+	
+}

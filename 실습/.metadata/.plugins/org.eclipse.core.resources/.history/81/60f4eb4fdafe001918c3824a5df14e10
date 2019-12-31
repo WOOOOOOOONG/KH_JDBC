@@ -1,0 +1,105 @@
+package model.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+// dao(data access object)
+
+public class JDBCModel {
+	public JDBCModel() { }
+	public void testJDBC() {
+		// // 모든 사원정보 조회
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		try {
+			// 1. 해당 데이터베이스에 대한 라이브러리 등록 작업
+			// Class.forName("클래스명"); -> ClassNotFoundException 처리 필요
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2. 데이터베이스와 결합
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "scott", "tiger");
+			
+			System.out.println(conn);
+			
+			// 3. 쿼리문 가지고 DB에 가서 쿼리문 실행 시키고 결과를 가저올 객체 생성
+			String query = "SELECT * FROM EMP";
+			
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			while(rset.next()) {
+				System.out.println(rset.getInt("empno") + ", "
+									+ rset.getString("ename") + ", "
+									+ rset.getString("job") + ", "
+									+ rset.getInt("mgr") + ", "
+									+ rset.getDate("hireDate") + ", "
+									+ rset.getInt("sal") + ", "
+									+ rset.getInt("comm") + ", "
+									+ rset.getInt("deptno"));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// DB와 관련된 객체는 반드시 close 해야 함
+			try {
+				rset.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	public void testJDBC2(int empNo) {
+		// 사번을 전달받아 직원 정보 조회
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection("jdbc:oracle:this:@127.0.0.1:1521:xe", "scott", "tiger");
+			
+			String query = "SELECT * FROM EMP WHERE EMPNO = " + empNo;
+			
+			stmt = conn.createStatement();
+			
+			rset = stmt.executeQuery(query);
+
+			while(rset.next()) {
+				System.out.println(rset.getInt(1) + ", "
+									+ rset.getString(2) + ", "
+									+ rset.getString(3) + ", "
+									+ rset.getString(4) + ", "
+									+ rset.getString(5) + ", "
+									+ rset.getString(6) + ", "
+									+ rset.getString(7) + ", "
+									+ rset.getString(8) + ", ");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+}

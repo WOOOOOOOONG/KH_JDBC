@@ -1,0 +1,11 @@
+package member.model.service;
+
+import java.sql.Connection;
+
+import common.JDBCTemplate;
+import member.model.dao.MemberDao;
+
+public class MemberService {
+	Connection c = JDBCTemplate.getConnection();
+	MemberDao md = new MemberDao();
+}

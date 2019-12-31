@@ -1,0 +1,299 @@
+package member.model.dao;
+
+import static common.JDBCTemplate.close;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
+
+import member.model.vo.Member;
+
+
+public class MemberDao {
+	// 멤버객체 추가
+	public int insertMember(Connection con, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			// Properties 파일에서 쿼리문 읽어오기
+			Properties prop = new Properties();
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("insertMember");
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, m.getMember_id());
+			pstmt.setString(2, m.getMember_pwd());
+			pstmt.setString(3, m.getMember_name());
+			pstmt.setString(4, m.getGender());
+			pstmt.setString(5, m.getEmail());
+			pstmt.setString(6, m.getPhone());
+			pstmt.setString(7, m.getAddress());
+			pstmt.setInt(8, m.getAge());
+			pstmt.setDate(9, m.getEnroll_date());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	// 전체조회
+	public ArrayList<Member> selectAll(Connection con) {
+		ArrayList<Member> al = new ArrayList<Member>();
+		PreparedStatement pstat = null;
+		ResultSet rset = null;
+		Properties prop = new Properties();
+		
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("selectAll");
+			
+			pstat = con.prepareStatement(query);
+			rset = pstat.executeQuery();
+			
+			while(rset.next()) {
+				Member b = new Member();
+				
+				b.setMember_id(rset.getString(1));
+				b.setMember_pwd(rset.getString(2));
+				b.setMember_name(rset.getString(3));
+				b.setGender(rset.getString(4));
+				b.setEmail(rset.getString(5));
+				b.setPhone(rset.getString(6));
+				b.setAddress(rset.getString(7));
+				b.setAge(rset.getInt(8));
+				b.setEnroll_date(rset.getDate(9));
+				
+				al.add(b);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				rset.close();
+				pstat.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return al;
+	}
+	
+	// ID로 조회
+	public ArrayList<Member> searchMember(Connection con, String inputMemberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Member> al = new ArrayList<Member>();
+		
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("searchMember");
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, inputMemberId);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Member b = new Member();
+				
+				b.setMember_id(rset.getString(1));
+				b.setMember_pwd(rset.getString(2));
+				b.setMember_name(rset.getString(3));
+				b.setGender(rset.getString(4));
+				b.setEmail(rset.getString(5));
+				b.setPhone(rset.getString(6));
+				b.setAddress(rset.getString(7));
+				b.setAge(rset.getInt(8));
+				b.setEnroll_date(rset.getDate(9));
+				
+				al.add(b);
+			}
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				rset.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return al;
+	}
+
+	public HashMap<String, Member> selectGender(Connection con, String inputGender) {
+		HashMap<String, Member> hmap = new HashMap<String, Member>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("selectGender");
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, inputGender);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Member m = new Member();
+				
+				m.setMember_id(rset.getString("member_id"));
+				m.setMember_pwd(rset.getString("member_pwd"));
+				m.setMember_name(rset.getString("member_name"));
+				m.setGender(rset.getString("gender"));
+				m.setEmail(rset.getString("email"));
+				m.setPhone(rset.getString("phone"));
+				m.setAddress(rset.getString("address"));
+				m.setAge(rset.getInt("age"));
+				m.setEnroll_date(rset.getDate("enroll_date"));
+				
+				hmap.put(m.getMember_id(), m);
+			}
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return hmap;
+	}
+
+	public int updatePassword(Connection con, String inputMemberId, String inputPassword) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("updatePassword");
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, inputPassword);
+			pstmt.setString(2, inputMemberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int updateEmail(Connection c, String inputMemberId, String inputEmail) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("updateEmail");
+			pstmt = c.prepareStatement(query);
+			pstmt.setString(1, inputEmail);
+			pstmt.setString(2, inputMemberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int updatePhone(Connection c, String inputMemberId, String inputPhone) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("updatePhone");
+			pstmt = c.prepareStatement(query);
+			pstmt.setString(1, inputPhone);
+			pstmt.setString(2, inputMemberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int updateAddress(Connection c, String inputMemberId, String inputAddress) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("updateAddress");
+			pstmt = c.prepareStatement(query);
+			pstmt.setString(1, inputAddress);
+			pstmt.setString(2, inputMemberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public int deleteMember(Connection c, String inputMemberId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileReader("query.properties"));
+			String query = prop.getProperty("deleteMember");
+			pstmt = c.prepareStatement(query);
+			pstmt.setString(1, inputMemberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+}

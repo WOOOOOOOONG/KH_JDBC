@@ -1,0 +1,64 @@
+package controller;
+
+import java.util.Scanner;
+
+//import java.sql.Date;
+
+import model.dao.EmployeeModel;
+import model.dto.Employee;
+
+public class TestJDBC {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);	
+		EmployeeModel model = new EmployeeModel();
+		
+		// 1. 모든 직원 조회
+//		model.selectAll();
+		
+		// 2. 키보드로 사번 입력받아 조회
+//		System.out.print("조회하실 사번을 입력하세요 : ");
+//		int findEmpId = sc.nextInt();
+//		sc.nextLine();
+//		model.selectOne(findEmpId);
+		
+		// 3. 키보드로 새 직원 정보 입력받아 삽입
+//		System.out.println("새 직원의 정보를 입력하세요. 사번(문자), 이름(문자), 주민번호(문자), 이메일(문자), 휴대폰(문자), 직업번호(문자), 연봉(숫자), 보너스(숫자), 결혼여부(문자), 매니저(문자), 부서번호(문자)");
+//		String empId, empName, empNo, email, phone, jobId, marry, mgr, dept;
+//		int salary, bonus_p;
+//		
+//		empId = sc.nextLine();
+//		empName = sc.nextLine();
+//		empNo = sc.nextLine();
+//		email = sc.nextLine();
+//		phone = sc.nextLine();
+//		jobId = sc.nextLine();
+//		salary = sc.nextInt(); 
+//		bonus_p = sc.nextInt(); sc.nextLine(); 
+//		marry = sc.nextLine();
+//		mgr = sc.nextLine();
+//		dept = sc.nextLine();
+//		
+//		Employee emp = new Employee(empId, empName, empNo, email, phone, jobId, salary, bonus_p, marry, mgr, dept);
+//		model.insertEmployee(emp);
+		
+//		// 4. 사번, 직급코드, 급여, 보너스 포인트, 부서코드 입력받아 수정(검색 기준은 사번)
+		System.out.print("수정하실 사번(문자)과 직급코드(문자), 급여(숫자), 보너스 포인트(숫자), 부서코드(문자)를 차례대로 입력하시오 : ");
+		String empId2, jobId2, deptCode2;
+		int salary2, bonus_p2;
+		
+		empId2 = sc.nextLine();
+		jobId2 = sc.nextLine();
+		salary2 = sc.nextInt();
+		bonus_p2 = sc.nextInt();
+		sc.nextLine();
+		deptCode2 = sc.nextLine();
+		
+		Employee modifyEmp = new Employee(empId2, jobId2, salary2, bonus_p2, deptCode2);
+		model.updateEmployee(modifyEmp);
+//		220, J7, 3000, 3, 10
+//		// 5. 키보드로 사번 입력받아 삭제
+//		System.out.print("삭제하실 사번을 입력하세요 : ");
+//		int deleteEmpNo = sc.nextInt();
+//		model.deleteEmployee(deleteEmpNo);
+	}
+}

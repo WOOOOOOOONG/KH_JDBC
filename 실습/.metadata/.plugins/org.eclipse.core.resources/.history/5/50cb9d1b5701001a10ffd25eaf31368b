@@ -1,0 +1,32 @@
+package member.controller;
+
+import java.sql.Connection;
+
+import common.JDBCTemplate;
+import member.model.vo.Member;
+import member.view.MemberMenu;
+import member.view.MemberView;
+
+public class MemberController {
+	MemberView mv = new MemberView();
+	MemberMenu mm = new MemberMenu();
+	Connection conn = JDBCTemplate.getConnection();
+	
+	public void insertMember(Member inputMember) {
+		
+	}
+	
+	public void SelectAll() {
+		
+	}
+	
+	public void SelectId(String mID) {
+		
+	}
+
+	public void selectAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

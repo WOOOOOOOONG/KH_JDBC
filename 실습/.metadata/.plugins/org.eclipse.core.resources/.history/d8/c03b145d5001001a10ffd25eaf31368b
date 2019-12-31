@@ -1,0 +1,18 @@
+package member.controller;
+
+import java.sql.Connection;
+
+import common.JDBCTemplate;
+import member.model.vo.Member;
+import member.view.MemberView;
+
+public class MemberController {
+	MemberView mv = new MemberView();
+	Connection conn = JDBCTemplate.getConnection();
+	
+	public void insertMember(Member inputMember) {
+		mv.
+		
+	}
+
+}
